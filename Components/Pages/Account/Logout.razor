@@ -1,0 +1,37 @@
+﻿@page "/logout"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authentication
+@using EmployeeCrudBlazor.Data
+@using EmployeeCrudBlazor.Data.ViewModels
+
+
+@using Microsoft.AspNetCore.Authentication.Cookies
+@inject NavigationManager navigationmanager
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body flex-column">
+                <div class="text-center">
+                </div>
+                <div class="text-center mt-2">
+                    <span class="text-danger fw-bolder">You have successfully logged out</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public HttpContext HttpContext{ get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if(HttpContext.User.Identity.IsAuthenticated)
+        {
+            await HttpContext.SignOutAsync();
+            navigationmanager.NavigateTo("/logout", true);
+        }
+    }
+}
